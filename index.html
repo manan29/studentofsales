@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Resources Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: white;
+            padding: 2.5rem 2rem 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+
+        header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .category-nav {
+            background: white;
+            border-bottom: 2px solid #e0e0e0;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .category-tabs {
+            display: inline-flex;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            min-width: 100%;
+        }
+
+        .category-tab {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            white-space: nowrap;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .category-tab:hover {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .category-tab.active {
+            background: #333;
+            color: white;
+        }
+
+        .category-count {
+            display: inline-block;
+            margin-left: 0.5rem;
+            padding: 0.125rem 0.5rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .content-filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .sort-controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            min-width: 200px;
+        }
+
+        .filter-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.75rem;
+            display: block;
+            font-weight: 500;
+        }
+
+        .filters {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.25rem;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover {
+            border-color: #999;
+        }
+
+        .filter-btn.active {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+
+        .sort-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            background: white;
+        }
+
+        .search-bar {
+            margin-bottom: 2rem;
+        }
+
+        #search {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+
+        #search:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .results-header {
+            margin-bottom: 1.5rem;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .resource-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            gap: 0.5rem;
+        }
+
+        .content-type-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .content-type-badge.video { background: #ff6b6b; color: white; }
+        .content-type-badge.reddit { background: #ff6b35; color: white; }
+        .content-type-badge.linkedin { background: #0077b5; color: white; }
+        .content-type-badge.podcast { background: #9b59b6; color: white; }
+        .content-type-badge.youtube { background: #ff0000; color: white; }
+        .content-type-badge.article { background: #2ecc71; color: white; }
+        .content-type-badge.book { background: #34495e; color: white; }
+
+        .rating-display {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.25rem;
+        }
+
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        .rating-label {
+            color: #666;
+            font-size: 0.75rem;
+        }
+
+        .stars {
+            color: #ffa500;
+            font-size: 0.9rem;
+        }
+
+        .rating-score {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.85rem;
+        }
+
+        .vote-count {
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        .audience-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid #0066cc;
+        }
+
+        .audience-label {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .audience-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .audience-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: #e8f4f8;
+            color: #0066cc;
+        }
+
+        .resource-card h3 {
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+
+        .resource-card p {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .resource-link {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+
+        .rate-btn {
+            padding: 0.5rem 1rem;
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .rate-btn:hover {
+            background: #333;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .rating-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .rating-section label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .star {
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.2s ease;
+        }
+
+        .star:hover, .star.active {
+            color: #ffa500;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: #333;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sales Resources Hub</h1>
+        <p>Community-curated resources to master sales</p>
+    </header>
+
+    <nav class="category-nav">
+        <div class="category-tabs" id="categoryTabs"></div>
+    </nav>
+
+    <main>
+        <div class="controls-row">
+            <div class="content-filters">
+                <label class="filter-label">Filter by content type:</label>
+                <div class="filters" id="contentFilters"></div>
+            </div>
+            <div class="sort-controls">
+                <label class="filter-label">Sort by:</label>
+                <select class="sort-select" id="sortSelect">
+                    <option value="helpful">Most Helpful</option>
+                    <option value="actionable">Most Actionable</option>
+                    <option value="recent">Recently Added</option>
+                    <option value="votes">Most Rated</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Search resources...">
+        </div>
+
+        <div class="results-header" id="resultsHeader"></div>
+        <div id="resources-container" class="resources-grid">
+            <div class="loading"><h3>Loading resources...</h3></div>
+        </div>
+    </main>
+
+    <div class="modal" id="ratingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Rate this resource</h2>
+                <p id="modalResourceTitle"></p>
+            </div>
+            <div class="rating-section">
+                <label>How helpful is this resource?</label>
+                <div class="star-rating" id="helpfulnessStars">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+            </div>
+            <div class="rating-section">
+                <label>How actionable is this resource?</label>
+                <div class="star-rating" id="actionabilityStars">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeRatingModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitRating()">Submit Rating</button>
+            </div>
+        </div>
+    </div>
+<script>
+        // ⚠️ IMPORTANT: Replace YOUR_SHEET_ID_HERE with your actual Google Sheet ID
+        const SHEET_ID = '1115l-RJJlfAaWDtHwuv0QqRL0idaNfPSrMiGM2T8Fp8';
+        const SHEET_NAME = 'Sheet1';
+        const API_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+
+        const categories = [
+            { id: 'all', name: 'All Resources' },
+            { id: 'business-development', name: 'Business Development' },
+            { id: 'complex-ent-deals', name: 'Complex Ent Deals' },
+            { id: 'sales-methodology', name: 'Sales Methodology' },
+            { id: 'sales-coaching', name: 'Sales Coaching' },
+            { id: 'first-time-manager', name: 'First Time Manager' },
+            { id: 'books', name: 'Books to Read' }
+        ];
+
+        const contentTypes = [
+            { id: 'all', name: 'All Types' },
+            { id: 'video', name: 'Video' },
+            { id: 'youtube', name: 'YouTube' },
+            { id: 'podcast', name: 'Podcast' },
+            { id: 'article', name: 'Article' },
+            { id: 'reddit', name: 'Reddit' },
+            { id: 'linkedin', name: 'LinkedIn' },
+            { id: 'book', name: 'Book' }
+        ];
+
+        let allResources = [];
+        let currentCategory = 'all';
+        let currentContentType = 'all';
+        let currentSort = 'helpful';
+        let currentResourceId = null;
+        let tempHelpfulness = 0;
+        let tempActionability = 0;
+
+        async function loadResources() {
+            try {
+                const response = await fetch(API_URL);
+                const text = await response.text();
+                const json = JSON.parse(text.substr(47).slice(0, -2));
+                
+                allResources = json.table.rows.map((row, index) => ({
+                    id: index + 1,
+                    title: row.c[0]?.v || '',
+                    description: row.c[1]?.v || '',
+                    url: row.c[2]?.v || '',
+                    category: row.c[3]?.v || '',
+                    contentType: row.c[4]?.v || '',
+                    audiences: row.c[5]?.v ? row.c[5].v.split(',').map(a => a.trim()) : [],
+                    tags: row.c[6]?.v || '',
+                    helpfulness: parseFloat(row.c[7]?.v) || 0,
+                    actionability: parseFloat(row.c[8]?.v) || 0,
+                    voteCount: parseInt(row.c[9]?.v) || 0
+                }));
+                
+                initializeCategoryTabs();
+                initializeContentFilters();
+                filterAndDisplay();
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('resources-container').innerHTML = 
+                    '<div class="loading"><h3>Error loading resources</h3><p>Check your Sheet ID</p></div>';
+            }
+        }
+
+        function initializeCategoryTabs() {
+            const tabsContainer = document.getElementById('categoryTabs');
+            tabsContainer.innerHTML = categories.map(cat => {
+                const count = cat.id === 'all' ? allResources.length : 
+                    allResources.filter(r => r.category === cat.id).length;
+                return `
+                    <button class="category-tab ${cat.id === 'all' ? 'active' : ''}" data-category="${cat.id}">
+                        ${cat.name}<span class="category-count">${count}</span>
+                    </button>
+                `;
+            }).join('');
+
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = this.dataset.category;
+                    filterAndDisplay();
+                });
+            });
+        }
+
+        function initializeContentFilters() {
+            const filtersContainer = document.getElementById('contentFilters');
+            filtersContainer.innerHTML = contentTypes.map(type => `
+                <button class="filter-btn ${type.id === 'all' ? 'active' : ''}" data-type="${type.id}">
+                    ${type.name}
+                </button>
+            `).join('');
+
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentContentType = this.dataset.type;
+                    filterAndDisplay();
+                });
+            });
+        }
+
+        function renderStars(rating) {
+            if (rating === 0) return '—';
+            const fullStars = Math.floor(rating);
+            let stars = '';
+            for (let i = 0; i < fullStars; i++) stars += '★';
+            return stars;
+        }
+
+        function filterAndDisplay() {
+            let filtered = allResources;
+
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(r => r.category === currentCategory);
+            }
+
+            if (currentContentType !== 'all') {
+                filtered = filtered.filter(r => r.contentType === currentContentType);
+            }
+
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            if (searchTerm) {
+                filtered = filtered.filter(r => 
+                    r.title.toLowerCase().includes(searchTerm) ||
+                    r.description.toLowerCase().includes(searchTerm) ||
+                    r.tags.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            filtered = sortResources(filtered, currentSort);
+            displayResources(filtered);
+            updateResultsHeader(filtered.length);
+        }
+
+        function sortResources(resources, sortBy) {
+            const sorted = [...resources];
+            switch(sortBy) {
+                case 'helpful':
+                    return sorted.sort((a, b) => b.helpfulness - a.helpfulness);
+                case 'actionable':
+                    return sorted.sort((a, b) => b.actionability - a.actionability);
+                case 'votes':
+                    return sorted.sort((a, b) => b.voteCount - a.voteCount);
+                case 'recent':
+                    return sorted.reverse();
+                default:
+                    return sorted;
+            }
+        }
+
+        function updateResultsHeader(count) {
+            const header = document.getElementById('resultsHeader');
+            const categoryName = categories.find(c => c.id === currentCategory)?.name || 'All';
+            const typeName = contentTypes.find(t => t.id === currentContentType)?.name || 'All Types';
+            header.textContent = `Showing ${count} resource${count !== 1 ? 's' : ''} in ${categoryName}${currentContentType !== 'all' ? ` • ${typeName}` : ''}`;
+        }
+
+        function displayResources(resources) {
+            const container = document.getElementById('resources-container');
+            
+            if (resources.length === 0) {
+                container.innerHTML = '<div class="loading"><h3>No resources found</h3></div>';
+                return;
+            }
+            
+            container.innerHTML = resources.map(resource => `
+                <div class="resource-card">
+                    <div class="card-header">
+                        <span class="content-type-badge ${resource.contentType}">${resource.contentType}</span>
+                        <div class="rating-display">
+                            ${resource.voteCount > 0 ? `
+                                <div class="rating-row">
+                                    <span class="rating-label">Helpful:</span>
+                                    <span class="stars">${renderStars(resource.helpfulness)}</span>
+                                    <span class="rating-score">${resource.helpfulness.toFixed(1)}</span>
+                                </div>
+                                <div class="rating-row">
+                                    <span class="rating-label">Actionable:</span>
+                                    <span class="stars">${renderStars(resource.actionability)}</span>
+                                    <span class="rating-score">${resource.actionability.toFixed(1)}</span>
+                                </div>
+                                <div class="vote-count">${resource.voteCount} ratings</div>
+                            ` : '<div class="vote-count">Not rated yet</div>'}
+                        </div>
+                    </div>
+                    
+                    ${resource.audiences.length > 0 ? `
+                        <div class="audience-section">
+                            <span class="audience-label">👥 Best for:</span>
+                            <div class="audience-tags">
+                                ${resource.audiences.map(aud => `<span class="audience-badge">${aud}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    <h3>${resource.title}</h3>
+                    <p>${resource.description}</p>
+                    <div class="card-footer">
+                        <a href="${resource.url}" target="_blank" class="resource-link">View Resource →</a>
+                        <button class="rate-btn" onclick="openRatingModal(${resource.id})">Rate this</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openRatingModal(resourceId) {
+            currentResourceId = resourceId;
+            const resource = allResources.find(r => r.id === resourceId);
+            document.getElementById('modalResourceTitle').textContent = resource.title;
+            document.getElementById('ratingModal').classList.add('active');
+            tempHelpfulness = 0;
+            tempActionability = 0;
+            resetStars();
+        }
+
+        function closeRatingModal() {
+            document.getElementById('ratingModal').classList.remove('active');
+            resetStars();
+        }
+
+        function resetStars() {
+            document.querySelectorAll('.star').forEach(star => star.classList.remove('active'));
+        }
+
+        function setupStarRating(containerId, callback) {
+            const container = document.getElementById(containerId);
+            const stars = container.querySelectorAll('.star');
+            
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const value = parseInt(this.dataset.value);
+                    callback(value);
+                    stars.forEach(s => s.classList.remove('active'));
+                    for (let i = 0; i < value; i++) {
+                        stars[i].classList.add('active');
+                    }
+                });
+            });
+        }
+
+        function submitRating() {
+            if (tempHelpfulness === 0 || tempActionability === 0) {
+                alert('Please rate both helpfulness and actionability');
+                return;
+            }
+
+            const resource = allResources.find(r => r.id === currentResourceId);
+            const totalVotes = resource.voteCount;
+            
+            resource.helpfulness = totalVotes === 0 ? tempHelpfulness : 
+                ((resource.helpfulness * totalVotes) + tempHelpfulness) / (totalVotes + 1);
+            resource.actionability = totalVotes === 0 ? tempActionability : 
+                ((resource.actionability * totalVotes) + tempActionability) / (totalVotes + 1);
+            resource.voteCount += 1;
+
+            closeRatingModal();
+            filterAndDisplay();
+            alert('Thank you for rating!');
+        }
+
+        document.getElementById('search').addEventListener('input', filterAndDisplay);
+        document.getElementById('sortSelect').addEventListener('change', function(e) {
+            currentSort = e.target.value;
+            filterAndDisplay();
+        });
+
+        setupStarRating('helpfulnessStars', value => tempHelpfulness = value);
+        setupStarRating('actionabilityStars', value => tempActionability = value);
+
+        document.getElementById('ratingModal').addEventListener('click', function(e) {
+            if (e.target === this) closeRatingModal();
+        });
+
+        loadResources();
+    </script>
+</body>
+</html>
+
+  
