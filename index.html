@@ -662,106 +662,24 @@
         let currentContentType = 'all';
         let currentSort = 'top';
 
-        // Sample data for demo (replace with actual Google Sheets data)
-        const sampleResources = [
-            {
-                id: 1,
-                title: "MEDDIC Framework Deep Dive",
-                description: "Complete guide to implementing MEDDIC methodology in your sales process. Learn how to qualify deals effectively.",
-                url: "https://www.youtube.com/watch?v=example",
-                category: "sales-methodology",
-                contentType: "video",
-                audiences: ["AE", "Sales Engineer"],
-                tags: "meddic, qualification, enterprise",
-                upvotes: 142,
-                downvotes: 8
-            },
-            {
-                id: 2,
-                title: "30 Minutes to President's Club",
-                description: "Top AE shares their playbook for consistently hitting 150% quota. Real strategies, real results.",
-                url: "https://podcast.example.com",
-                category: "sales-coaching",
-                contentType: "podcast",
-                audiences: ["AE", "Enterprise AE"],
-                tags: "quota, playbook, winning",
-                upvotes: 98,
-                downvotes: 5
-            },
-            {
-                id: 3,
-                title: "Cold Calling Scripts That Actually Work",
-                description: "Reddit thread with 100+ proven cold calling scripts from top performers. Tested in real deals.",
-                url: "https://reddit.com/r/sales",
-                category: "business-development",
-                contentType: "reddit",
-                audiences: ["SDR", "BDR"],
-                tags: "cold calling, scripts, prospecting",
-                upvotes: 267,
-                downvotes: 12
-            },
-            {
-                id: 4,
-                title: "Gap Selling by Keenan",
-                description: "Revolutionary approach to problem-centric selling. Stop talking about your product and start talking about their problems.",
-                url: "https://www.amazon.com/gap-selling",
-                category: "books",
-                contentType: "book",
-                audiences: ["AE", "BDR", "Sales Leader"],
-                tags: "gap selling, keenan, methodology",
-                upvotes: 312,
-                downvotes: 15
-            },
-            {
-                id: 5,
-                title: "First 90 Days as Sales Manager",
-                description: "LinkedIn post series on transitioning from AE to Manager. Avoid common pitfalls and build trust with your team.",
-                url: "https://linkedin.com/posts/example",
-                category: "first-time-manager",
-                contentType: "linkedin",
-                audiences: ["Manager", "Sales Leader"],
-                tags: "management, leadership, transition",
-                upvotes: 87,
-                downvotes: 3
-            },
-            {
-                id: 6,
-                title: "Complex Deal Breakdown: $2M Enterprise Sale",
-                description: "Step-by-step analysis of a 14-month enterprise deal. What worked, what didn't, and lessons learned.",
-                url: "https://youtube.com/example",
-                category: "complex-ent-deals",
-                contentType: "youtube",
-                audiences: ["Enterprise AE", "AE"],
-                tags: "enterprise, case study, deal review",
-                upvotes: 156,
-                downvotes: 7
-            }
-        ];
-
         async function loadResources() {
-            try {
-                // For demo, using sample data. Replace with actual API call:
-                /*
-                const response = await fetch(API_URL);
-                const text = await response.text();
-                const json = JSON.parse(text.substr(47).slice(0, -2));
-                
-                allResources = json.table.rows.map((row, index) => ({
-                    id: index + 1,
-                    title: row.c[0]?.v || '',
-                    description: row.c[1]?.v || '',
-                    url: row.c[2]?.v || '',
-                    category: row.c[3]?.v || '',
-                    contentType: row.c[4]?.v || '',
-                    audiences: row.c[5]?.v ? row.c[5].v.split(',').map(a => a.trim()) : [],
-                    tags: row.c[6]?.v || '',
-                    upvotes: parseInt(row.c[7]?.v) || 0,
-                    downvotes: parseInt(row.c[8]?.v) || 0
-                }));
-                */
-                
-                // Using sample data for now
-                allResources = sampleResources;
+    try {
+        const response = await fetch(API_URL);
+        const text = await response.text();
+        const json = JSON.parse(text.substr(47).slice(0, -2));
+        
+        allResources = json.table.rows.map((row, index) => ({
+            id: index + 1,
+            title: row.c[0]?.v || '',
+            description: row.c[1]?.v || '',
+            url: row.c[2]?.v || '',
+            category: row.c[3]?.v || '',
+            contentType: row.c[4]?.v || '',
+            audiences: row.c[5]?.v ? row.c[5].v.split(',').map(a => a.trim()) : [],
+            tags: row.c[6]?.v || '',
+            upvotes: parseInt(row.c[7]?.v) || 0,
+            downvotes: parseInt(row.c[8]?.v) || 0
+        }));
                 
                 initializeCategoryTabs();
                 initializeContentFilters();
