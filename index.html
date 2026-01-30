@@ -126,110 +126,193 @@
             font-weight: 500;
         }
 
-        /* Category Navigation */
-        .category-nav {
-            background: var(--white);
-            padding: 1.25rem 0;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .category-tabs {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            gap: 0.75rem;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .category-tabs::-webkit-scrollbar {
-            display: none;
-        }
-
-        .category-tab {
-            padding: 0.65rem 1.75rem;
-            border: none;
-            background: var(--gray-100);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 0.9rem;
-            border-radius: 50px;
-            white-space: nowrap;
-            font-weight: 600;
-            color: var(--gray-700);
-            font-family: 'Inter', sans-serif;
-        }
-
-        .category-tab:hover {
-            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
-            color: var(--white);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
-        }
-
-        .category-tab.active {
-            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
-            color: var(--white);
-            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
-        }
-
-        .category-count {
-            display: inline-block;
-            margin-left: 0.4rem;
-            padding: 0.1rem 0.45rem;
-            background: rgba(255,255,255,0.25);
-            border-radius: 8px;
-            font-size: 0.75rem;
-        }
-
-        /* Main Container */
-        .main-container {
-            max-width: 1400px;
+        /* Main Layout with Sidebar */
+        .main-layout {
+            max-width: 1600px;
             margin: 2.5rem auto;
             padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2.5rem;
         }
 
+        /* LEFT SIDEBAR - FILTERS */
+        .filters-sidebar {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .filter-section {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--gray-200);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Search Box */
+        .search-box {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--purple-primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        /* Filter Checkbox Items */
+        .filter-item {
+            display: flex;
+            align-items: center;
+            padding: 0.65rem 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-item:hover {
+            padding-left: 0.5rem;
+        }
+
+        .filter-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 0.75rem;
+            cursor: pointer;
+            accent-color: var(--purple-primary);
+        }
+
+        .filter-item label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .filter-count {
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+
+        /* Radio buttons for Recency */
+        .filter-item input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 0.75rem;
+            cursor: pointer;
+            accent-color: var(--purple-primary);
+        }
+
+        /* Clear Filters Button */
+        .clear-filters {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--gray-100);
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .clear-filters:hover {
+            background: var(--gray-200);
+        }
+
+        /* RIGHT SIDE - CONTENT AREA */
+        .content-area {
+            min-height: 400px;
+        }
+
+        /* Results Header */
         .results-header {
             margin-bottom: 1.5rem;
-            color: var(--gray-600);
-            font-size: 0.95rem;
-            font-weight: 600;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .results-info {
-            display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             gap: 1rem;
         }
 
-        .view-toggle {
-            display: flex;
-            gap: 0.5rem;
+        .results-count {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            font-weight: 600;
         }
 
-        .view-btn {
-            padding: 0.5rem 0.75rem;
+        .sort-dropdown {
+            padding: 0.65rem 1.25rem;
             border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-dark);
             background: var(--white);
-            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+        }
+
+        .sort-dropdown:hover {
+            border-color: var(--purple-primary);
+        }
+
+        .sort-dropdown:focus {
+            outline: none;
+            border-color: var(--purple-primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        /* Active Filters Tags */
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #e9d5ff 0%, #ddd6fe 100%);
+            color: var(--purple-dark);
+            border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 600;
-            color: var(--gray-700);
         }
 
-        .view-btn.active {
-            background: var(--purple-primary);
-            color: var(--white);
-            border-color: var(--purple-primary);
+        .filter-tag-close {
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        .filter-tag-close:hover {
+            color: var(--purple-primary);
         }
 
         /* Resources List Container */
@@ -321,7 +404,7 @@
             color: white;
         }
 
-        .content-type-badge.linkedin {
+        .content-type-badge.linkedin-article {
             background: linear-gradient(135deg, #0a66c2 0%, #004182 100%);
             color: white;
         }
@@ -342,15 +425,15 @@
             text-overflow: ellipsis;
         }
 
-        /* Audience Badges */
-        .resource-audience {
+        /* Career Path Badges */
+        .resource-career-path {
             display: flex;
             flex-wrap: nowrap;
             gap: 0.35rem;
             flex-shrink: 0;
         }
 
-        .audience-badge {
+        .career-path-badge {
             padding: 0.25rem 0.6rem;
             border-radius: 20px;
             font-size: 0.68rem;
@@ -422,9 +505,33 @@
             color: var(--purple-primary);
         }
 
+        /* Load More Button */
+        .load-more {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .load-more-btn {
+            padding: 1rem 3rem;
+            background: var(--purple-primary);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .load-more-btn:hover {
+            background: var(--purple-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+        }
+
         /* Newsletter Section */
         .newsletter-section {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 4rem auto 5rem;
             padding: 0 2rem;
         }
@@ -543,6 +650,11 @@
 
         /* Mobile Responsive */
         @media (max-width: 1200px) {
+            .main-layout {
+                grid-template-columns: 240px 1fr;
+                gap: 2rem;
+            }
+
             .resource-title {
                 flex: 0 0 220px;
             }
@@ -550,27 +662,20 @@
             .resource-description {
                 flex: 0 0 240px;
             }
-            
-            .resource-category {
-                flex: 0 0 120px;
-            }
         }
 
         @media (max-width: 1024px) {
-            .resource-row {
-                font-size: 0.85rem;
+            .main-layout {
+                grid-template-columns: 1fr;
             }
-            
-            .resource-title {
-                flex: 0 0 180px;
-                font-size: 0.85rem;
+
+            .filters-sidebar {
+                position: static;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1rem;
             }
-            
-            .resource-description {
-                flex: 0 0 200px;
-                font-size: 0.75rem;
-            }
-            
+
             .separator:nth-of-type(3),
             .resource-category {
                 display: none;
@@ -586,12 +691,12 @@
                 font-size: 1rem;
             }
 
-            .category-tabs {
+            .main-layout {
                 padding: 0 1rem;
             }
 
-            .main-container {
-                padding: 0 1rem;
+            .filters-sidebar {
+                grid-template-columns: 1fr;
             }
 
             .resource-row {
@@ -627,21 +732,6 @@
                 font-size: 0.75rem;
             }
 
-            .resource-audience {
-                flex-wrap: wrap;
-            }
-
-            .audience-badge {
-                font-size: 0.65rem;
-                padding: 0.2rem 0.5rem;
-            }
-
-            .results-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.75rem;
-            }
-
             .newsletter-section {
                 padding: 0 1rem;
             }
@@ -662,20 +752,74 @@
         <p>Community-curated resources to master your craft</p>
     </header>
 
-    <nav class="category-nav">
-        <div class="category-tabs" id="categoryTabs"></div>
-    </nav>
-
-    <div class="main-container">
-        <div class="results-header" id="resultsHeader">
-            <div class="results-info">
-                <span id="resultsCount"></span>
+    <div class="main-layout">
+        <!-- LEFT SIDEBAR - FILTERS -->
+        <aside class="filters-sidebar">
+            <!-- Career Path Filter -->
+            <div class="filter-section">
+                <h3 class="filter-title">🎯 Career Path</h3>
+                <div id="careerPathFilters"></div>
             </div>
-        </div>
 
-        <div class="resources-list" id="resources-container">
-            <div class="loading"><h3>Loading amazing resources...</h3></div>
-        </div>
+            <!-- Content Type Filter -->
+            <div class="filter-section">
+                <h3 class="filter-title">📁 Content Type</h3>
+                <div id="contentTypeFilters"></div>
+            </div>
+
+            <!-- Recency Filter -->
+            <div class="filter-section">
+                <h3 class="filter-title">📅 Recency</h3>
+                <div id="recencyFilters">
+                    <div class="filter-item">
+                        <input type="radio" name="recency" id="recency-all" value="all" checked>
+                        <label for="recency-all">All Time</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="radio" name="recency" id="recency-week" value="week">
+                        <label for="recency-week">Last Week</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="radio" name="recency" id="recency-month" value="month">
+                        <label for="recency-month">Last Month</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="radio" name="recency" id="recency-quarter" value="quarter">
+                        <label for="recency-quarter">Last 3 Months</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clear Filters -->
+            <button class="clear-filters" onclick="clearAllFilters()">Clear All Filters</button>
+        </aside>
+
+        <!-- RIGHT SIDE - CONTENT AREA -->
+        <main class="content-area">
+            <!-- Results Header -->
+            <div class="results-header">
+                <div class="results-count" id="resultsCount">Loading...</div>
+                <select class="sort-dropdown" id="sortSelect">
+                    <option value="popular">Most Upvoted</option>
+                    <option value="recent">Most Recent</option>
+                    <option value="az">A-Z</option>
+                    <option value="za">Z-A</option>
+                </select>
+            </div>
+
+            <!-- Active Filters Tags -->
+            <div class="active-filters" id="activeFilters"></div>
+
+            <!-- Resources List -->
+            <div class="resources-list" id="resources-container">
+                <div class="loading"><h3>Loading amazing resources...</h3></div>
+            </div>
+
+            <!-- Load More -->
+            <div class="load-more" id="loadMoreContainer" style="display: none;">
+                <button class="load-more-btn" onclick="loadMore()">Load More Resources</button>
+            </div>
+        </main>
     </div>
 
     <section class="newsletter-section">
@@ -699,13 +843,11 @@
     </section>
 
     <script>
-        // ⚠️ IMPORTANT: Replace YOUR_SHEET_ID_HERE with your actual Google Sheet ID
         const SHEET_ID = '1115l-RJJlfAaWDtHwuv0QqRL0idaNfPSrMiGM2T8Fp8';
         const SHEET_NAME = 'Sheet1';
         const API_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
         const categories = [
-            { id: 'all', name: 'All Resources' },
             { id: 'prospecting-skills', name: 'Prospecting Skills ⭐' },
             { id: 'getting-started', name: 'Getting Started' },
             { id: 'becoming-ae', name: 'Becoming an AE' },
@@ -714,102 +856,255 @@
             { id: 'advanced-skills', name: 'Advanced Skills' }
         ];
 
+        const contentTypes = ['Audio', 'Video', 'LinkedIn Article', 'Blog'];
+
         let allResources = [];
-        let currentCategory = 'all';
+        let filteredResources = [];
+        let displayedCount = 20; // Show 20 at a time
+        
+        let activeFilters = {
+            careerPath: [],
+            contentType: [],
+            recency: 'all',
+            sort: 'popular'
+        };
 
         async function loadResources() {
             try {
                 console.log('Fetching from:', API_URL);
                 const response = await fetch(API_URL);
                 const text = await response.text();
-                console.log('Raw response received:', text.substring(0, 200));
-                
                 const json = JSON.parse(text.substr(47).slice(0, -2));
-                console.log('Parsed JSON:', json);
-                console.log('Total rows:', json.table.rows.length);
                 
-                // Skip the first row (header row)
-                allResources = json.table.rows.slice(1).map((row, index) => {
-                    const resource = {
-                        id: index + 1,
-                        title: row.c[0]?.v || '',
-                        description: row.c[1]?.v || '',
-                        url: row.c[2]?.v || '',
-                        category: row.c[3]?.v || '',
-                        contentType: row.c[4]?.v || '',
-                        audiences: row.c[5]?.v ? row.c[5].v.split(',').map(a => a.trim()) : [],
-                        tags: row.c[6]?.v || '',
-                        upvotes: parseInt(row.c[7]?.v) || 0,
-                        downvotes: parseInt(row.c[8]?.v) || 0
-                    };
-                    console.log('Resource', index + 1, ':', resource);
-                    return resource;
-                });
+                // Skip the first row (header row) and add timestamp
+                allResources = json.table.rows.slice(1).map((row, index) => ({
+                    id: index + 1,
+                    title: row.c[0]?.v || '',
+                    description: row.c[1]?.v || '',
+                    url: row.c[2]?.v || '',
+                    category: row.c[3]?.v || '',
+                    contentType: row.c[4]?.v || '',
+                    audiences: row.c[5]?.v ? row.c[5].v.split(',').map(a => a.trim()) : [],
+                    tags: row.c[6]?.v || '',
+                    upvotes: parseInt(row.c[7]?.v) || 0,
+                    downvotes: parseInt(row.c[8]?.v) || 0,
+                    addedDate: new Date() // For now, all are "new". Later you can add this to sheet
+                }));
                 
                 console.log('Total resources loaded:', allResources.length);
                 
-                initializeCategoryTabs();
-                filterAndDisplay();
+                initializeFilters();
+                applyFilters();
             } catch (error) {
                 console.error('Error details:', error);
-                console.error('Error stack:', error.stack);
                 document.getElementById('resources-container').innerHTML = 
                     `<div class="loading"><h3>Error loading resources</h3><p>${error.message}</p></div>`;
             }
         }
 
-        function initializeCategoryTabs() {
-            const tabsContainer = document.getElementById('categoryTabs');
-            tabsContainer.innerHTML = categories.map(cat => {
-                const count = cat.id === 'all' ? allResources.length : 
-                    allResources.filter(r => r.category === cat.id).length;
-                return `
-                    <button class="category-tab ${cat.id === 'all' ? 'active' : ''}" data-category="${cat.id}">
-                        ${cat.name}<span class="category-count">${count}</span>
-                    </button>
-                `;
-            }).join('');
+        function initializeFilters() {
+            // Initialize Career Path (Category) Filters
+            const careerPathContainer = document.getElementById('careerPathFilters');
+            const categoryCounts = {};
+            
+            categories.forEach(cat => {
+                categoryCounts[cat.id] = allResources.filter(r => r.category === cat.id).length;
+            });
 
-            document.querySelectorAll('.category-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    currentCategory = this.dataset.category;
-                    filterAndDisplay();
-                });
+            careerPathContainer.innerHTML = categories.map(cat => `
+                <div class="filter-item">
+                    <input type="checkbox" id="career-${cat.id}" value="${cat.id}" onchange="updateFilters()">
+                    <label for="career-${cat.id}">
+                        <span>${cat.name}</span>
+                        <span class="filter-count">${categoryCounts[cat.id] || 0}</span>
+                    </label>
+                </div>
+            `).join('');
+
+            // Initialize Content Type Filters
+            const contentTypeContainer = document.getElementById('contentTypeFilters');
+            const contentTypeCounts = {};
+            
+            contentTypes.forEach(type => {
+                contentTypeCounts[type] = allResources.filter(r => 
+                    r.contentType.toLowerCase() === type.toLowerCase() ||
+                    r.contentType.toLowerCase().replace(/\s+/g, '-') === type.toLowerCase().replace(/\s+/g, '-')
+                ).length;
+            });
+
+            contentTypeContainer.innerHTML = contentTypes.map(type => `
+                <div class="filter-item">
+                    <input type="checkbox" id="type-${type.replace(/\s+/g, '-')}" value="${type}" onchange="updateFilters()">
+                    <label for="type-${type.replace(/\s+/g, '-')}">
+                        <span>${type}</span>
+                        <span class="filter-count">${contentTypeCounts[type] || 0}</span>
+                    </label>
+                </div>
+            `).join('');
+
+            // Event listeners
+            document.getElementById('sortSelect').addEventListener('change', updateFilters);
+            document.querySelectorAll('input[name="recency"]').forEach(radio => {
+                radio.addEventListener('change', updateFilters);
             });
         }
 
-        function filterAndDisplay() {
-            let filtered = allResources;
+        function updateFilters() {
+            // Get career path checkboxes
+            activeFilters.careerPath = Array.from(document.querySelectorAll('#careerPathFilters input:checked'))
+                .map(cb => cb.value);
 
-            if (currentCategory !== 'all') {
-                filtered = filtered.filter(r => r.category === currentCategory);
+            // Get content type checkboxes
+            activeFilters.contentType = Array.from(document.querySelectorAll('#contentTypeFilters input:checked'))
+                .map(cb => cb.value);
+
+            // Get recency
+            activeFilters.recency = document.querySelector('input[name="recency"]:checked').value;
+
+            // Get sort
+            activeFilters.sort = document.getElementById('sortSelect').value;
+
+            // Reset displayed count
+            displayedCount = 20;
+
+            applyFilters();
+        }
+
+        function applyFilters() {
+            filteredResources = allResources.filter(resource => {
+                // Career path filter
+                if (activeFilters.careerPath.length > 0) {
+                    if (!activeFilters.careerPath.includes(resource.category)) {
+                        return false;
+                    }
+                }
+
+                // Content type filter
+                if (activeFilters.contentType.length > 0) {
+                    const resourceType = resource.contentType.toLowerCase().replace(/\s+/g, '-');
+                    const hasMatch = activeFilters.contentType.some(filterType => 
+                        resourceType === filterType.toLowerCase().replace(/\s+/g, '-')
+                    );
+                    if (!hasMatch) {
+                        return false;
+                    }
+                }
+
+                // Recency filter
+                if (activeFilters.recency !== 'all') {
+                    const now = new Date();
+                    const resourceDate = resource.addedDate;
+                    const daysDiff = (now - resourceDate) / (1000 * 60 * 60 * 24);
+
+                    if (activeFilters.recency === 'week' && daysDiff > 7) return false;
+                    if (activeFilters.recency === 'month' && daysDiff > 30) return false;
+                    if (activeFilters.recency === 'quarter' && daysDiff > 90) return false;
+                }
+
+                return true;
+            });
+
+            // Sort
+            if (activeFilters.sort === 'popular') {
+                filteredResources.sort((a, b) => (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes));
+            } else if (activeFilters.sort === 'recent') {
+                filteredResources.sort((a, b) => b.addedDate - a.addedDate);
+            } else if (activeFilters.sort === 'az') {
+                filteredResources.sort((a, b) => a.title.localeCompare(b.title));
+            } else if (activeFilters.sort === 'za') {
+                filteredResources.sort((a, b) => b.title.localeCompare(a.title));
             }
 
-            // Sort by top rated (upvotes - downvotes)
-            filtered.sort((a, b) => (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes));
-
-            displayResources(filtered);
-            updateResultsHeader(filtered.length);
+            updateActiveFilterTags();
+            displayResources();
         }
 
-        function updateResultsHeader(count) {
-            const categoryName = categories.find(c => c.id === currentCategory)?.name || 'All';
-            document.getElementById('resultsCount').textContent = 
-                `Showing ${count} resource${count !== 1 ? 's' : ''} in ${categoryName}`;
-        }
+        function updateActiveFilterTags() {
+            const container = document.getElementById('activeFilters');
+            const tags = [];
 
-        function displayResources(resources) {
-            const container = document.getElementById('resources-container');
-            
-            if (resources.length === 0) {
-                container.innerHTML = '<div class="loading"><h3>No resources found</h3></div>';
+            // Career path tags
+            activeFilters.careerPath.forEach(path => {
+                const cat = categories.find(c => c.id === path);
+                if (cat) tags.push(cat.name);
+            });
+
+            // Content type tags
+            activeFilters.contentType.forEach(type => {
+                tags.push(type);
+            });
+
+            // Recency tag
+            if (activeFilters.recency !== 'all') {
+                const recencyLabels = {
+                    week: 'Last Week',
+                    month: 'Last Month',
+                    quarter: 'Last 3 Months'
+                };
+                tags.push(recencyLabels[activeFilters.recency]);
+            }
+
+            if (tags.length === 0) {
+                container.innerHTML = '';
                 return;
             }
+
+            container.innerHTML = tags.map(tag => `
+                <div class="filter-tag">
+                    ${tag}
+                    <span class="filter-tag-close" onclick="removeFilterTag('${tag}')">×</span>
+                </div>
+            `).join('');
+        }
+
+        function removeFilterTag(tag) {
+            // Remove career path
+            categories.forEach(cat => {
+                if (tag === cat.name) {
+                    document.getElementById(`career-${cat.id}`).checked = false;
+                }
+            });
+
+            // Remove content type
+            contentTypes.forEach(type => {
+                if (tag === type) {
+                    document.getElementById(`type-${type.replace(/\s+/g, '-')}`).checked = false;
+                }
+            });
+
+            // Remove recency
+            if (tag.includes('Last')) {
+                document.getElementById('recency-all').checked = true;
+            }
+
+            updateFilters();
+        }
+
+        function clearAllFilters() {
+            document.querySelectorAll('#careerPathFilters input').forEach(cb => cb.checked = false);
+            document.querySelectorAll('#contentTypeFilters input').forEach(cb => cb.checked = false);
+            document.getElementById('recency-all').checked = true;
+            updateFilters();
+        }
+
+        function displayResources() {
+            const container = document.getElementById('resources-container');
+            const resultsCount = document.getElementById('resultsCount');
+            const loadMoreContainer = document.getElementById('loadMoreContainer');
             
-            container.innerHTML = resources.map(resource => {
+            resultsCount.textContent = `Showing ${Math.min(displayedCount, filteredResources.length)} of ${filteredResources.length} resources`;
+            
+            if (filteredResources.length === 0) {
+                container.innerHTML = '<div class="loading"><h3>No resources found</h3><p>Try adjusting your filters</p></div>';
+                loadMoreContainer.style.display = 'none';
+                return;
+            }
+
+            const resourcesToShow = filteredResources.slice(0, displayedCount);
+            
+            container.innerHTML = resourcesToShow.map(resource => {
                 const categoryName = categories.find(c => c.id === resource.category)?.name || resource.category;
+                const contentTypeClass = resource.contentType.toLowerCase().replace(/\s+/g, '-');
                 
                 return `
                     <div class="resource-row" onclick="window.open('${resource.url}', '_blank')">
@@ -817,12 +1112,12 @@
                         <span class="separator">|</span>
                         <div class="resource-description" title="${resource.description}">${resource.description}</div>
                         <span class="separator">|</span>
-                        <span class="content-type-badge ${resource.contentType.toLowerCase().replace(' ', '-')}">${resource.contentType}</span>
+                        <span class="content-type-badge ${contentTypeClass}">${resource.contentType}</span>
                         <span class="separator">|</span>
                         <div class="resource-category" title="${categoryName}">${categoryName}</div>
                         <span class="separator">|</span>
-                        <div class="resource-audience">
-                            ${resource.audiences.slice(0, 3).map(aud => `<span class="audience-badge">${aud}</span>`).join('')}
+                        <div class="resource-career-path">
+                            ${resource.audiences.slice(0, 2).map(aud => `<span class="career-path-badge">${aud}</span>`).join('')}
                         </div>
                         <div class="resource-votes" onclick="event.stopPropagation()">
                             <div class="vote-item upvote">
@@ -837,6 +1132,18 @@
                     </div>
                 `;
             }).join('');
+
+            // Show/hide load more button
+            if (filteredResources.length > displayedCount) {
+                loadMoreContainer.style.display = 'block';
+            } else {
+                loadMoreContainer.style.display = 'none';
+            }
+        }
+
+        function loadMore() {
+            displayedCount += 20;
+            displayResources();
         }
 
         function vote(resourceId, direction) {
@@ -870,7 +1177,7 @@
                 }
             }
 
-            filterAndDisplay();
+            applyFilters();
         }
 
         function subscribeToNewsletter(event) {
@@ -895,7 +1202,7 @@
         loadResources();
     </script>
 
-    <!-- Google Analytics (loaded at end for better performance) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KB9H2KSKFR"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
