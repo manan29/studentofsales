@@ -1115,10 +1115,6 @@
                         <span class="content-type-badge ${contentTypeClass}">${resource.contentType}</span>
                         <span class="separator">|</span>
                         <div class="resource-category" title="${categoryName}">${categoryName}</div>
-                        <span class="separator">|</span>
-                        <div class="resource-career-path">
-                            ${resource.audiences.slice(0, 2).map(aud => `<span class="career-path-badge">${aud}</span>`).join('')}
-                        </div>
                         <div class="resource-votes" onclick="event.stopPropagation()">
                             <div class="vote-item upvote">
                                 <button class="vote-btn upvote" onclick="vote(${resource.id}, 'up')">▲</button>
