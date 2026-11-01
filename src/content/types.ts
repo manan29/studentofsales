@@ -23,10 +23,10 @@ export type PathItem = {
   tryThisWeek: string;
 };
 
+/** Written in src/content/takes/<move-slug>.md; each "## Heading" becomes a section. */
 export type Take = {
-  whatChanges: string;
-  whatToStop: string;
-  first30Days: string;
+  status: "draft" | "published";
+  sections: { title: string; html: string }[];
 };
 
 export type Move = {
@@ -37,10 +37,11 @@ export type Move = {
   blurb: string;
   /** Position on the home-page timeline; omit for "get better where I am" moves. */
   timelineOrder?: number;
-  /** null until the curator has written it; the page then says it's coming. */
-  take: Take | null;
   path: PathItem[];
 };
+
+/** A move with its take loaded from Markdown (null until written). */
+export type MoveWithTake = Move & { take: Take | null };
 
 export type RoleId = "new" | "sdr" | "ae" | "ent" | "se" | "csm" | "revops" | "mgr";
 export type TargetId =

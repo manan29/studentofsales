@@ -1,8 +1,8 @@
 import type { Move } from "./types";
 
 // DRAFT NOTES: every `whyNow` and `tryThisWeek` below was drafted as a starting
-// point. Rewrite them in your own words before launch. `take` stays null until
-// you write it; the page shows "coming soon" instead of placeholder text.
+// point. Rewrite them in your own words before launch.
+// Your take on each move lives in src/content/takes/<slug>.md.
 
 const notes = {
   outbound: {
@@ -47,7 +47,6 @@ export const moves: Move[] = [
     title: "Breaking into sales",
     blurb: "Land your first sales role and get through the first 90 days.",
     timelineOrder: 1,
-    take: null,
     path: [
       { resource: "daily-outbound", ...notes.outbound },
       { resource: "cold-call-openers", ...notes.coldcall },
@@ -60,7 +59,6 @@ export const moves: Move[] = [
     title: "SDR → Account Executive",
     blurb: "You've been booking meetings. Now you have to win them.",
     timelineOrder: 2,
-    take: null,
     path: [
       { resource: "great-demo", ...notes.greatdemo },
       { resource: "eight-tips-for-aes", ...notes.aetips },
@@ -74,7 +72,6 @@ export const moves: Move[] = [
     title: "AE → Enterprise AE",
     blurb: "Bigger deals, longer cycles, more people in the room.",
     timelineOrder: 3,
-    take: null,
     path: [
       { resource: "meddicc", ...notes.meddicc },
       { resource: "never-split-the-difference", ...notes.nstd },
@@ -88,7 +85,6 @@ export const moves: Move[] = [
     title: "AE → First-time manager",
     blurb: "Your number is now your team's number.",
     timelineOrder: 4,
-    take: null,
     path: [
       { resource: "qualified-sales-leader", ...notes.qsl },
       { resource: "amp-it-up", ...notes.ampitup },
@@ -101,7 +97,6 @@ export const moves: Move[] = [
     title: "Manager → Sales leader",
     blurb: "From running a team to building the system.",
     timelineOrder: 5,
-    take: null,
     path: [
       { resource: "amp-it-up", ...notes.ampitup },
       { resource: "qualified-sales-leader", ...notes.qsl },
@@ -113,7 +108,6 @@ export const moves: Move[] = [
     to: "same",
     title: "Getting better as an SDR",
     blurb: "More conversations, better ones, without burning out.",
-    take: null,
     path: [
       { resource: "daily-outbound", ...notes.outbound },
       { resource: "cold-call-openers", ...notes.coldcall },
@@ -125,7 +119,6 @@ export const moves: Move[] = [
     to: "same",
     title: "Getting better as an AE",
     blurb: "Win more of the deals you already have.",
-    take: null,
     path: [
       { resource: "eight-tips-for-aes", ...notes.aetips },
       { resource: "great-demo", ...notes.greatdemo },
@@ -138,7 +131,6 @@ export const moves: Move[] = [
     to: "same",
     title: "Getting better as an Enterprise AE",
     blurb: "Qualify harder, negotiate calmer.",
-    take: null,
     path: [
       { resource: "meddicc", ...notes.meddicc },
       { resource: "never-split-the-difference", ...notes.nstd },
@@ -150,7 +142,6 @@ export const moves: Move[] = [
     to: "same",
     title: "Getting better as a manager",
     blurb: "Coach more, inspect better.",
-    take: null,
     path: [{ resource: "qualified-sales-leader", ...notes.qsl }],
   },
 ];

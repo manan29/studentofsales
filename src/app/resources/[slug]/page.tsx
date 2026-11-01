@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAllResources, getMovesForResource, getResource } from "@/lib/content";
+import { getAllResources, getMovesForResource, getNotesForResource, getResource } from "@/lib/content";
 import { byline } from "@/components/PathList";
 import { CuratorAvatar, curatorCredentials } from "@/components/Curator";
 import { curator } from "@/content/site";
@@ -27,6 +27,7 @@ export default async function ResourcePage({ params }: Props) {
   const resource = getResource((await params).slug);
   if (!resource) notFound();
   const onMoves = getMovesForResource(resource.slug);
+  const notes = getNotesForResource(resource.slug);
   const creds = curatorCredentials();
 
   return (
@@ -51,17 +52,23 @@ export default async function ResourcePage({ params }: Props) {
             {ctaLabel[resource.source] ?? "Open"} ↗<span className="sr-only"> (opens in a new tab)</span>
           </a>
 
-          {onMoves.map(({ move, item }) => (
-            <figure key={move.slug} className="card mt-8 p-6 shadow-[var(--shadow-raised)] sm:p-7">
+          {notes.map((note) => (
+            <figure key={note.moves[0].slug} className="card mt-8 p-6 shadow-[var(--shadow-raised)] sm:p-7">
               <p className="text-sm font-semibold text-accent">
-                Why read this now · <Link href={`/moves/${move.slug}`}>{move.title}</Link>
+                Why read this now ·{" "}
+                {note.moves.map((m, i) => (
+                  <span key={m.slug}>
+                    {i ? ", " : ""}
+                    <Link href={`/moves/${m.slug}`}>{m.title}</Link>
+                  </span>
+                ))}
               </p>
               <blockquote className="mt-2 font-display text-[22px] font-medium leading-snug tracking-[-0.015em]">
-                {item.whyNow}
+                {note.whyNow}
               </blockquote>
               <div className="mt-5 rounded-xl bg-sand-soft px-4 py-3.5 text-base">
                 <strong className="font-semibold">Try this week: </strong>
-                {item.tryThisWeek}
+                {note.tryThisWeek}
               </div>
               <figcaption className="mt-5 flex items-center gap-3">
                 <CuratorAvatar />

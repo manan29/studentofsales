@@ -2,20 +2,27 @@
 // these functions become GROQ queries and the rest of the app stays the same.
 import { moves, moveAliases } from "@/content/moves";
 import { resources } from "@/content/resources";
-import type { Move, Resource, RoleId, TargetId } from "@/content/types";
+import type { Move, MoveWithTake, Resource, RoleId, TargetId } from "@/content/types";
+import { getTake } from "./takes";
 
-export function getTimelineMoves(): Move[] {
+function withTake(m: Move): MoveWithTake {
+  return { ...m, take: getTake(m.slug) };
+}
+
+export function getTimelineMoves(): MoveWithTake[] {
   return moves
     .filter((m) => m.timelineOrder !== undefined)
-    .sort((a, b) => (a.timelineOrder ?? 0) - (b.timelineOrder ?? 0));
+    .sort((a, b) => (a.timelineOrder ?? 0) - (b.timelineOrder ?? 0))
+    .map(withTake);
 }
 
 export function getAllMoves(): Move[] {
   return moves;
 }
 
-export function getMove(slug: string): Move | undefined {
-  return moves.find((m) => m.slug === slug);
+export function getMove(slug: string): MoveWithTake | undefined {
+  const m = moves.find((x) => x.slug === slug);
+  return m ? withTake(m) : undefined;
 }
 
 export function getAllResources(): Resource[] {
@@ -40,6 +47,17 @@ export function getMovesForResource(slug: string) {
         next: next ? getResource(next.resource) : undefined,
       };
     });
+}
+
+/** The same resource's notes, merged where two moves share identical wording. */
+export function getNotesForResource(slug: string) {
+  const groups: { whyNow: string; tryThisWeek: string; moves: Move[] }[] = [];
+  for (const { move, item } of getMovesForResource(slug)) {
+    const same = groups.find((g) => g.whyNow === item.whyNow && g.tryThisWeek === item.tryThisWeek);
+    if (same) same.moves.push(move);
+    else groups.push({ whyNow: item.whyNow, tryThisWeek: item.tryThisWeek, moves: [move] });
+  }
+  return groups;
 }
 
 /** Map an onboarding answer to a move slug, or null when it isn't written yet. */

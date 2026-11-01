@@ -1,7 +1,7 @@
 import Link from "next/link";
-import type { Move } from "@/content/types";
+import type { MoveWithTake } from "@/content/types";
 
-export function MoveTimeline({ moves }: { moves: Move[] }) {
+export function MoveTimeline({ moves }: { moves: MoveWithTake[] }) {
   return (
     <ol className="max-w-[860px] list-none p-0">
       {moves.map((m, i) => (
